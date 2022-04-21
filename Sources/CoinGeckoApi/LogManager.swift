@@ -2,7 +2,7 @@ import Alamofire
 import Foundation
 
 internal final class LogManager {    
-    fileprivate static var logCounter = 0
+    private static var logCounter = 0
     
     static func log<Model: Codable>(statusCode: Int, _ response: AFDataResponse<Any>, _ decode: Model.Type) {
         #if DEBUG
@@ -21,7 +21,6 @@ internal final class LogManager {
         print("\nRequest #\(id):")
         print("» \(method) \(request)")
         
-        // Display headers
         if let headers = request.allHTTPHeaderFields {
             do {
                 let data = try JSONSerialization.data(withJSONObject: headers, options: [])
@@ -32,7 +31,6 @@ internal final class LogManager {
             }
         }
         
-        // Display body
         if let body = request.httpBody {
             do {
                 let json = try JSONSerialization.jsonObject(with: body, options: [.allowFragments])
