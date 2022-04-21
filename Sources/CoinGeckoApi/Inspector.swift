@@ -2,7 +2,7 @@ import Alamofire
 import Foundation
 
 public struct Inspector {
-    typealias Completion<Model> = (Result<Model, NetworkError>) -> Void
+    typealias Completion = (Result<Data, NetworkError>) -> Void
     typealias Kind<Model> = Model.Type
     private(set) var response: AFDataResponse<Any>
     
@@ -13,7 +13,7 @@ public struct Inspector {
     public static var didCatchUnauthorizedUser: (() -> Void)?
     public static var shouldUpdateApplication: (() -> Void)?
     
-    func monitor<Model: Codable>(kind: Kind<Model>, completion: @escaping Completion<Model>) {
+    func monitor(completion: @escaping Completion) {
         if response.error?._code == 13 {
             completion(.failure(.timeout))
             return
@@ -25,37 +25,24 @@ public struct Inspector {
         }
         
         if statusCode >= 400 {
-            LogManager.log(statusCode: statusCode, response, kind)
+            LogManager.log(statusCode: statusCode, response)
             completion(.failure(.clientError))
             return
         }
         
         // Shows log
-        LogManager.log(statusCode: statusCode, response, kind)
+        LogManager.log(statusCode: statusCode, response)
         
-        do {
-            switch response.result {
-            case .success:
-                let model: Model = try decode(from: response.data)
-                completion(.success(model))
-                
-            case .failure(let error):
-                completion(.failure(.alamofireError(description: error.localizedDescription)))
-            }
-        } catch {
-            completion(.failure(.couldNotDecodeResponseData(description: error.localizedDescription)))
-        }
-    }
- 
-    private func decode<Model: Codable>(from data: Data?) throws -> Model {
-        guard let data = data else {
-            throw NetworkError.dataIsNil
+        guard let data = response.data else {
+            completion(.failure(.dataIsNil))
+            return
         }
         
-        do {
-            return try JSONDecoder().decode(Model.self, from: data)
-        } catch {
-            throw error
+        switch response.result {
+        case .success: completion(.success(data))
+        case .failure(let error):
+            completion(.failure(.alamofireError(description: error.localizedDescription)))
         }
     }
+
 }

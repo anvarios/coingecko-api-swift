@@ -4,7 +4,7 @@ import Foundation
 internal final class LogManager {    
     private static var logCounter = 0
     
-    static func log<Model: Codable>(statusCode: Int, _ response: AFDataResponse<Any>, _ decode: Model.Type) {
+    static func log(statusCode: Int, _ response: AFDataResponse<Any>) {
         #if DEBUG
         DispatchQueue.main.async {
             logCounter += 1
