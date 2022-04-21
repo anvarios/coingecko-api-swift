@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "coingecko-api-swift",
+    platforms: [.iOS(.v13), .macOS(.v10_14)],
     products: [
         .library(name: "CoinGeckoApi", targets: ["CoinGeckoApi"])
     ],
