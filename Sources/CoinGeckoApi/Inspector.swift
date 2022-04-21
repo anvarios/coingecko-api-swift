@@ -2,18 +2,13 @@ import Alamofire
 import Foundation
 
 public struct Inspector {
-    typealias Completion = (Result<Data, NetworkError>) -> Void
-    typealias Kind<Model> = Model.Type
     private(set) var response: AFDataResponse<Any>
     
     public init(response: AFDataResponse<Any>) {
         self.response = response
     }
-    
-    public static var didCatchUnauthorizedUser: (() -> Void)?
-    public static var shouldUpdateApplication: (() -> Void)?
-    
-    func monitor(completion: @escaping Completion) {
+
+    func monitor(completion: @escaping (Result<Data, NetworkError>) -> Void) {
         if response.error?._code == 13 {
             completion(.failure(.timeout))
             return
@@ -30,7 +25,6 @@ public struct Inspector {
             return
         }
         
-        // Shows log
         LogManager.log(statusCode: statusCode, response)
         
         guard let data = response.data else {
@@ -44,5 +38,4 @@ public struct Inspector {
             completion(.failure(.alamofireError(description: error.localizedDescription)))
         }
     }
-
 }

@@ -48,11 +48,6 @@ internal final class LogManager {
             print("\nResponse #\(id):")
             print("» Status code: \(statusCode)")
             print("» Object:\n\(json)\n")
-            
-//            guard let plainText = String.init(data: data, encoding: .utf8) else {
-//                return
-//            }
-//            print("» Plain text #\(id):\n\(plainText)")
         } catch {
             print("» Response debug error:\n \(error)")
             print("» Localized description:\n \(error.localizedDescription)")

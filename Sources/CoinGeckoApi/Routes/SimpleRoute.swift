@@ -1,8 +1,4 @@
-import Alamofire
-
-public enum CoinGeckoRoute: Route {
-    case ping
-    
+public enum SimpleRoute: Route {
     case simplePrice(
         ids: [String],
         vsCurrencies: [String],
@@ -22,11 +18,8 @@ public enum CoinGeckoRoute: Route {
     )
     case simpleSupportedVsCurrencies
     
-    case coinsList(includePlatform: Bool)
-
     public var path: String {
         switch self {
-        case .ping: return "/ping"
         case .simplePrice(
             let ids,
             let vsCurrencies,
@@ -45,13 +38,6 @@ public enum CoinGeckoRoute: Route {
             let includeLastUpdatedAt
         ): return "/simple/token_price/\(id)?contract_addresses=\(contractAddresses.joined(separator: ","))&vs_currencies=\(vsCurrencies.joined(separator: ","))&include_market_cap=\(includeMarketCap)&include_24hr_vol=\(include24hrVol)&include_24hr_change=\(include24hrChange)&include_last_updated_at=\(includeLastUpdatedAt)"
         case .simpleSupportedVsCurrencies: return "/simple/supported_vs_currencies"
-            
-        case .coinsList(let includePlatform):
-            return "/coins/list?include_platform=\(includePlatform)"
         }
-    }
-
-    public var method: HTTPMethod {
-        return .get
     }
 }
