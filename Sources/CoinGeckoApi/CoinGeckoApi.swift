@@ -19,8 +19,11 @@ public final class CoinGeckoApi {
         }
     }
     
-    public static func ping(_ completion: @escaping (Result<RPing, NetworkError>) -> Void
-    ){
+    public static func ping(_ completion: @escaping (Result<RPing, NetworkError>) -> Void){
         request(with: .ping, completion)
+    }
+    
+    public static func getCoinsList(includePlatform: Bool, _ completion: @escaping (Result<[RCoin], NetworkError>) -> Void) {
+        request(with: .coinsList(includePlatform: includePlatform), completion)
     }
 }
