@@ -19,18 +19,25 @@ swift package init --type executable // Creates an executable app named "MyApp"
 import PackageDescription
 
 let package = Package(
-    name: "MyApp",
+    name: "coingecko-api-swift",
+    platforms: [.iOS(.v13), .macOS(.v10_14)],
+    products: [
+        .library(name: "CoinGeckoApi", targets: ["CoinGeckoApi"])
+    ],
     dependencies: [
-        .package(name: "coingecko-api-swift", url: "https://github.com/anvarios/coingecko-api-swift.git", .branch("master"))
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.4.0"),
+        .package(url: "https://github.com/Alamofire/Alamofire", from: "5.4.3")
     ],
     targets: [
-        .target(name: "MyApp", dependencies: [
-            .product(name: "CoinGeckoApi", package: "coingecko-api-swift"),
+        .target(name: "CoinGeckoApi", dependencies: [
+            .product(name: "Logging", package: "swift-log"),
+            .product(name: "Alamofire", package: "Alamofire")
         ]),
-        .testTarget(name: "MyAppTests", dependencies: [
-            .target(name: "MyApp")
+        .testTarget(name: "CoinGeckoApiTests", dependencies: [
+            .target(name: "CoinGeckoApi")
         ])
-    ]
+    ],
+    swiftLanguageVersions: [.v5]
 )
 ```
 
