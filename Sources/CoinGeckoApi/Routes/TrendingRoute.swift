@@ -3,7 +3,7 @@ public enum TrendingRoute: Route {
     
     public var path: String {
         switch self {
-        case .searchTrending: "/search/trending"
+        case .searchTrending: return "/search/trending"
         }
     }
 }
