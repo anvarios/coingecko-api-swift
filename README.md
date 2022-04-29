@@ -9,13 +9,6 @@
 ### Swift
 Download and install [Swift](https://swift.org/download)
 
-### Swift Package
-```shell
-mkdir MyApp
-cd MyApp
-swift package init --type executable // Creates an executable app named "MyApp"
-```
-
 #### Package.swift
 ```swift
 // swift-tools-version:5.3
@@ -38,18 +31,8 @@ let package = Package(
 )
 ```
 
-### Build
-```shell
-swift build -c release
-```
-
 ## Usage
 ```swift
 import CoinGeckoApi
 // TODO:
-```
-
-## Tests
-```shell
-swift test --enable-test-discovery --sanitize=thread
 ```
