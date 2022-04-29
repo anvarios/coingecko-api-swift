@@ -34,5 +34,25 @@ let package = Package(
 ## Usage
 ```swift
 import CoinGeckoApi
-// TODO:
+
+let route = PingRoute.ping
+
+CoinGeckoApi.request(with: route) { result in
+    switch result {
+    case .success(let data):
+        if let pingModel = try? JSONDecoder().decode(Ping.self, from: data) {
+            print(pingModel.geckoSays)
+        }
+    case .failure(let error):
+        print(error.localizedDescription)
+    }
+}
+
+struct Ping: Codable {
+    let geckoSays: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case geckoSays = "gecko_says"
+    }
+}
 ```
