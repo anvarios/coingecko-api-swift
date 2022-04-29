@@ -4,12 +4,17 @@ import Foundation
 internal final class LogManager {    
     private static var logCounter = 0
     
-    static func log(statusCode: Int, _ response: AFDataResponse<Any>) {
+    static func log(
+        request: URLRequest,
+        data: Data?,
+        statusCode: Int,
+        _ response: URLResponse
+    ) {
         #if DEBUG
         DispatchQueue.main.async {
             logCounter += 1
-            debugPrintRequest(response.request, with: logCounter)
-            debugPrintResponseData(response.data, with: logCounter, statusCode: statusCode)
+            debugPrintRequest(request, with: logCounter)
+            debugPrintResponseData(data, with: logCounter, statusCode: statusCode)
             print("\n« ------------- « ----------------- « o » ------------- » ----------------- »\n")
         }
         #endif
@@ -51,11 +56,6 @@ internal final class LogManager {
         } catch {
             print("» Response debug error:\n \(error)")
             print("» Localized description:\n \(error.localizedDescription)")
-            
-            if let alamofireError = error.asAFError {
-                print("» Alamofire debug error:\n \(alamofireError)")
-                print("» Alamofire Localized description:\n \(alamofireError.localizedDescription)")
-            }
         }
     }
 }

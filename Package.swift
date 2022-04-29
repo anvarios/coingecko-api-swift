@@ -8,15 +8,9 @@ let package = Package(
     products: [
         .library(name: "CoinGeckoApi", targets: ["CoinGeckoApi"])
     ],
-    dependencies: [
-        .package(url: "https://github.com/apple/swift-log.git", from: "1.4.0"),
-        .package(url: "https://github.com/Alamofire/Alamofire", from: "5.4.3")
-    ],
+    dependencies: [],
     targets: [
-        .target(name: "CoinGeckoApi", dependencies: [
-            .product(name: "Logging", package: "swift-log"),
-            .product(name: "Alamofire", package: "Alamofire")
-        ]),
+        .target(name: "CoinGeckoApi", dependencies: []),
         .testTarget(name: "CoinGeckoApiTests", dependencies: [
             .target(name: "CoinGeckoApi")
         ])

@@ -1,41 +1,34 @@
-import Alamofire
 import Foundation
 
 public struct Inspector {
-    private(set) var response: AFDataResponse<Any>
-    
-    public init(response: AFDataResponse<Any>) {
-        self.response = response
-    }
-
-    func monitor(completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        if response.error?._code == 13 {
-            completion(.failure(.timeout))
+    static func monitor(request: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+        if let error = error {
+            completion(.failure(.customError(description: error.localizedDescription)))
             return
         }
         
-        guard let statusCode = response.response?.statusCode else {
+        guard let response = response else {
+            completion(.failure(.noInternetConnection))
+            return
+        }
+        
+        guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
             completion(.failure(.unableToGetStatusCode))
             return
         }
         
+        LogManager.log(request: request, data: data, statusCode: statusCode, response)
+        
         if statusCode >= 400 {
-            LogManager.log(statusCode: statusCode, response)
             completion(.failure(.clientError))
             return
         }
         
-        LogManager.log(statusCode: statusCode, response)
-        
-        guard let data = response.data else {
+        guard let data = data else {
             completion(.failure(.dataIsNil))
             return
         }
         
-        switch response.result {
-        case .success: completion(.success(data))
-        case .failure(let error):
-            completion(.failure(.alamofireError(description: error.localizedDescription)))
-        }
+        completion(.success(data))
     }
 }
