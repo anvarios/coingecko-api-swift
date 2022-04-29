@@ -5,33 +5,20 @@
     <img src="https://static.coingecko.com/s/thumbnail-007177f3eca19695592f0b8b0eabbdae282b54154e1be912285c9034ea6cbaf2.png" alt="thumbnail-007177f3eca19695592f0b8b0eabbdae282b54154e1be912285c9034ea6cbaf2" alt="CoinGecko-logo" alt="CoinGecko-logo"/>
 </p>
 
-## Installation
-### Swift
-Download and install [Swift](https://swift.org/download)
 
-#### Package.swift
-```swift
-// swift-tools-version:5.3
+## API documentation 📝
+https://www.coingecko.com/api/docs/v3
 
-import PackageDescription
+## Getting Started 💿
+#### Swift Package Manager (Xcode 11 and above)
+1. Select `File`/`Swift Packages`/`Add Package Dependency` from the menu.
+2. Paste `https://github.com/anvarios/coingecko-api-swift`.
 
-let package = Package(
-    name: "MyApp",
-    dependencies: [
-        .package(name: "coingecko-api-swift", url: "https://github.com/anvarios/coingecko-api-swift.git", .branch("master"))
-    ],
-    targets: [
-        .target(name: "MyApp", dependencies: [
-            .product(name: "CoinGeckoApi", package: "coingecko-api-swift"),
-        ]),
-        .testTarget(name: "MyAppTests", dependencies: [
-            .target(name: "MyApp")
-        ])
-    ]
-)
-```
+Why not CocoaPods, or Carthage?
 
-## Usage
+Supporting multiple dependency managers makes maintaining a library exponentially more complicated and time consuming. Furthermore, with the integration of the Swift Package Manager in Xcode 11 and greater, I expect the need for alternative solutions to fade quickly.
+
+## Usage 🏓
 ```swift
 import CoinGeckoApi
 
@@ -56,3 +43,33 @@ struct Ping: Codable {
     }
 }
 ```
+
+## Package.swift 🚨
+```swift
+// swift-tools-version:5.3
+
+import PackageDescription
+
+let package = Package(
+    name: "MyApp",
+    dependencies: [
+        .package(name: "coingecko-api-swift", url: "https://github.com/anvarios/coingecko-api-swift.git", .branch("master"))
+    ],
+    targets: [
+        .target(name: "MyApp", dependencies: [
+            .product(name: "CoinGeckoApi", package: "coingecko-api-swift"),
+        ]),
+        .testTarget(name: "MyAppTests", dependencies: [
+            .target(name: "MyApp")
+        ])
+    ]
+)
+```
+
+## Donations 🚀
+😍 Donations are greatly appreciated and a motivation to keep improving.
+
+BTC: 0x0cf8a3dd7ecf65897dea3a5861535d24f7e2b9d3 (BEP20) <br />
+ETH: 0x0cf8a3dd7ecf65897dea3a5861535d24f7e2b9d3 (ERC20) <br />
+BNB: 0x0cf8a3dd7ecf65897dea3a5861535d24f7e2b9d3 (BEP20) <br />
+USDT: THEr1uNejYsV9iEZoT8NCuJdq8Comrhjay (TRC20)
