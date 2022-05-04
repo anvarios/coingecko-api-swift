@@ -1,4 +1,3 @@
-import Alamofire
 import Foundation
 
 internal final class LogManager {    
